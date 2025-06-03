@@ -1,0 +1,2 @@
+horizontal_fov=100.6872655196603
+vertical_fov=68.3204803886128
