@@ -28,8 +28,7 @@ Tooling: CARLA Simulator
 - Able to add various stationary sensors or attach to vehicles:
   - RGB Camera
   - Depth Camera
-  - LiDAR Camera
-  - Semantic Segmentation (from preset actor tag)
+  - Semantic Segmentation (from preset actor tag) --> Ground Truth
 
 ![RGB+SemSeg+Depth+GT](assets/trimmed_four_vids.gif)
 
@@ -158,5 +157,6 @@ Finally, use GANs (GAN loss) to ensure final output is realistic
 
 ## Results
 20 FPS & N=5 Chunking
-|![](image-path-1)<br>Front view|![](image-path-2)<br>Side view|
+|![](assets/front_view.gif)<br>Front view|![](assets/side_view.gif)<br>Side view|
 |:-:|:-:|
+
