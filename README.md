@@ -169,7 +169,7 @@ Finally, use GANs (GAN loss) to ensure final output is realistic
 |:-:|:-:|
 
 ### Final Results
-|![11 FPS, Chunking N=1](assets/view0_carla_X1.gif)<br>11 FPS, Chunking N=1|![20 FPS, Chunking N=2](assets/view0_carla_X2.gif)<br>20 FPS, Chunking N=2|
+|![17.6 FPS, Chunking N=1](assets/17fps_view0.gif)<br>17.6 FPS, Chunking N=1|![27.51 FPS, Chunking N=2](assets/27fps_view0.gif)<br>27.51 FPS, Chunking N=2|
 |:-:|:-:|
 
 ## Conclusion
