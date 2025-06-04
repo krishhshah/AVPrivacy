@@ -44,6 +44,8 @@ Use object detection supplemented with “depth” data (RGB-D):
 - All pixels belonging to the same object fall within a small range of depth values
 - Use a fast object detector (instead of an instance segmentor) and the depth values within the bounding box
 
+![Segmentation Pipeline](assets/segmentation.png)
+
 ## Facial Anonymization
 Make faces non-recognizable to humans while being fast and difficult to reverse.
 
@@ -79,6 +81,9 @@ A competition between a **generator (G)** and **discriminator (D)**:
 - Output 9fps is too slow for real-time video footage
 - Recursive stitching causes increasingly slower runtime with more figures are on the screen
 
+![GAN: DeepPrivacy Example (their image)](assets/deepprivacy.png)
+
+
 #### GANs: StyleGAN
 *Goal*: Generate photorealistic and controllable synthetic images
 - Map random noise vector (X) to an intermediate latent space (Y)
@@ -92,6 +97,9 @@ A competition between a **generator (G)** and **discriminator (D)**:
 *Cons*:
 - Pretrained models not applicable to our use case
 - Attempted application resulted in unusable images
+
+![Style GAN Example](assets/stylegan.png)
+
 
 ### Inpainting
 #### DeepFill
@@ -112,6 +120,9 @@ Finally, use GANs (GAN loss) to ensure final output is realistic
 - Slower runtime, but sufficient given our chunking optimization
 - Completely removes the head because inpainting uses the background
 
+![Inpainting Example](assets/inpainting.png)
+
+
 ### Stable Diffusion
 *Goal*: Generate synthetic images by learning to reverse the process of turning image into noise, enabling it to turn noise into an image
 - Forward: iteratively add small amounts of gaussian noise
@@ -125,6 +136,10 @@ Finally, use GANs (GAN loss) to ensure final output is realistic
 *Cons*: 
 - Poor results and unacceptable performance
 
+
+![Stable Diffusion Example](assets/stablediffusion.png)
+
+
 ### Simple Transformations
 #### Gaussian blur, matrix transformations, image smoothing
 
@@ -134,6 +149,9 @@ Finally, use GANs (GAN loss) to ensure final output is realistic
 - Easily reversible if attacker knows the privacy preservation method.
 - Not individually sufficient for a robust anonymization pipeline.
 
+![Simple Gaussian Color Noise Example](assets/simplegaussian.png)
+
+
 ### Image Resampling
 
 *Pros*:
@@ -141,6 +159,9 @@ Finally, use GANs (GAN loss) to ensure final output is realistic
 - Anonymized face to but computer can still detect a “face” without a loss of privacy
 - Simple and fast
 - Very difficult to reverse
+
+![Resampling Example](assets/sampling.png)
+
 
 ## Chosen Anonymization Technique
 
@@ -160,6 +181,14 @@ Finally, use GANs (GAN loss) to ensure final output is realistic
 |![Front view](assets/front_view.gif)<br>Front view|![Side view](assets/side_view.gif)<br>Side view|
 |:-:|:-:|
 
+
+Depth Perturbation (Z-axis anonymization)
+
+![Anonymization in the Z-axis (Depth)](assets/depthperturb.png)
+
+
+
+
 ## Demo
 ### Intitial Video
 ![Initial Video](assets/initial_video.gif)
@@ -171,6 +200,12 @@ Finally, use GANs (GAN loss) to ensure final output is realistic
 ### Final Results
 |![17.6 FPS, Chunking N=1](assets/17fps_view0.gif)<br>17.6 FPS, Chunking N=1|![27.51 FPS, Chunking N=2](assets/27fps_view0.gif)<br>27.51 FPS, Chunking N=2|
 |:-:|:-:|
+
+
+3d Anonymization
+
+![3D Anonymization in Color and Z-Axis](assets/3danon.png)
+
 
 ## Conclusion
 - Successfully tackled the challenge of real-time PII anonymization in AV/XR sensor data 
