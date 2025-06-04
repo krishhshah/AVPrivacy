@@ -157,6 +157,30 @@ Finally, use GANs (GAN loss) to ensure final output is realistic
 
 ## Results
 20 FPS & N=5 Chunking
-|![](assets/front_view.gif)<br>Front view|![](assets/side_view.gif)<br>Side view|
+|![Front view](assets/front_view.gif)<br>Front view|![Side view](assets/side_view.gif)<br>Side view|
 |:-:|:-:|
 
+## Demo
+### Intitial Video
+![Initial Video](assets/initial_video.gif)
+
+### Segmentation Example
+|![Head Segmentation](assets/0_masked_carla.png)<br>Head Segmenation|![Depth View](assets/depth-0_carla.png)<br>Depth View|
+|:-:|:-:|
+
+### Final Results
+|![11 FPS, Chunking N=1](assets/view0_carla_X1.gif)<br>11 FPS, Chunking N=1|![20 FPS, Chunking N=2](assets/view0_carla_X2.gif)<br>20 FPS, Chunking N=2|
+|:-:|:-:|
+
+## Conclusion
+- Successfully tackled the challenge of real-time PII anonymization in AV/XR sensor data 
+- Leveraged RGB-D data to use depth-assisted techniques for effective person + head localization
+- Opened the door to enabling anonymization beyond facial in XR settings in the future
+- More robust testing scenarios in Carla + implementing ROS to show AV’s reaction to input data
+
+## References
+- GANs: https://doi.org/10.48550/arXiv.1406.2661 
+- DeepPrivacyV2: https://doi.org/10.48550/arXiv.2211.09454
+- StyleGAN: https://arxiv.org/pdf/1812.04948 
+- Diffusion Models: https://doi.org/10.48550/arXiv.2112.10752
+- Faster-RCNN: https://arxiv.org/pdf/1506.01497 
