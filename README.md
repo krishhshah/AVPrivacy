@@ -11,6 +11,8 @@ Core Components
 - Efficiently identify people and localizing their head regions using RGB-D data.
 - Apply a fast and irreversible technique to make faces non-recognizable.
 
+![pipeline](assets/pipeline.png)
+
 ## Dataset Generation
 Synthetic Data > Real Data
 - Avoids collecting real-world data with identifiable faces
@@ -45,6 +47,38 @@ Use object detection supplemented with “depth” data (RGB-D):
 - Use a fast object detector (instead of an instance segmentor) and the depth values within the bounding box
 
 ![Segmentation Pipeline](assets/segmentation.png)
+
+### Initial Person Detection
+Initial person detection
+- Use a fast, pre-trained object detector
+- Specifically, a Faster R-CNN trained on the COCO dataset
+
+Depth-assisted segmentation
+- Consider the depth in the center of the bounding box
+- Allow pixels within a threshold of the center depth
+
+Aside: This technique can be extended beyond AVs, such as into extended reality (XR). We merge multiple camera views into one final output.
+
+### Head Localization Strategy
+- For AV applications, our primary goal is to anonymize faces.
+- Estimate the head’s region to be toward the top of the refined bounding box.
+- Based on manual observations, set a fixed value of 21%.
+
+### Optimization
+Processing every frame for detection and segmentation is still too expensive
+Observation: A person’s location and depth profile in the video is very similar across a few frames
+
+Solution: Perform full person detection and head localization on the first frame of a small “chunk”, or N frames
+- Frame 1: For each head in a frame, compute its center coordinates and depth profile (mean, standard deviation)
+- Frame 2…N:
+  - Leverage the stored depth profile from frame #1
+  - Include pixels in or closely around (account for minimal movement) the original bounding box
+  - Pixels that fall in the expected depth range of the depth profile are considered to be the head
+
+→ Skip the computationally intensive object detection on most frames.
+→ Improve performance and output FPS
+
+
 
 ## Facial Anonymization
 Make faces non-recognizable to humans while being fast and difficult to reverse.
@@ -112,7 +146,8 @@ Two-Stage Coarse-to-Fine network:
 2. Enhance the output of the coarse inpainted image using another encoder-decoder. 
     1. This component uses a contextual attention layer to find consist textures to fill the hole. 
 
-Finally, use GANs (GAN loss) to ensure final output is realistic
+Use GANs (GAN loss) to ensure final output is realistic OR Fourier Convolutions to ensure large masking is speedy
+
 
 *Pros*: Easy to set up
 
@@ -160,6 +195,9 @@ Finally, use GANs (GAN loss) to ensure final output is realistic
 - Simple and fast
 - Very difficult to reverse
 
+*Cons*:
+- Can use sharpness methods to somewhat reconstruct
+
 ![Resampling Example](assets/sampling.png)
 
 
@@ -177,7 +215,7 @@ Finally, use GANs (GAN loss) to ensure final output is realistic
   - Final step to introduce information loss all around
 
 ## Results
-20 FPS & N=5 Chunking
+≈25 FPS & N=5 Chunking
 |![Front view](assets/front_view.gif)<br>Front view|![Side view](assets/side_view.gif)<br>Side view|
 |:-:|:-:|
 
@@ -186,7 +224,9 @@ Depth Perturbation (Z-axis anonymization)
 
 ![Anonymization in the Z-axis (Depth)](assets/depthperturb.png)
 
+3D Anonymization
 
+![3D Anonymization in Color and Z-Axis](assets/3danon.png)
 
 
 ## Demo
@@ -201,11 +241,24 @@ Depth Perturbation (Z-axis anonymization)
 |![17.6 FPS, Chunking N=1](assets/17fps_view0.gif)<br>17.6 FPS, Chunking N=1|![27.51 FPS, Chunking N=2](assets/27fps_view0.gif)<br>27.51 FPS, Chunking N=2|
 |:-:|:-:|
 
+## Evaluation Results - Speed
+| Num Views / Chunking | Avg Segmentation Time per Frame | Avg Anonymization Time per Frame | FPS   |
+|:--------------------:|:--------------------------------:|:---------------------------------:|:-----:|
+| V=1, C=1             | 0.0225                           | 0.0343                            | 17.60 |
+| V=1, C=2             | 0.0148                           | 0.02155                           | 27.51 |
+| V=2, C=2             | 0.0228                           | 0.0408                            | 15.72 |
+| V=2, C=4             | 0.01418                          | 0.026                             | 24.86 |
 
-3d Anonymization
+## Evaluation Results - Similarity
+| Chunking | Average Dice | Average Recall |
+|:--------:|:------------:|:--------------:|
+|   C=1    |    0.9340    |     0.9329     |
+|   C=2    |    0.9163    |     0.8983     |
+|   C=5    |    0.8577    |     0.8054     |
+|  C=10    |    0.7599    |     0.6665     |
+|  C=20    |    0.5917    |     0.4524     |
 
-![3D Anonymization in Color and Z-Axis](assets/3danon.png)
-
+From the first table, we see that C=2 provides good performance for our realtime application, and the second table shows us it still maintains a high level of accuracy, proving its viability.
 
 ## Conclusion
 - Successfully tackled the challenge of real-time PII anonymization in AV/XR sensor data 
@@ -219,3 +272,5 @@ Depth Perturbation (Z-axis anonymization)
 - StyleGAN: https://arxiv.org/pdf/1812.04948 
 - Diffusion Models: https://doi.org/10.48550/arXiv.2112.10752
 - Faster-RCNN: https://arxiv.org/pdf/1506.01497 
+- LaMa Inpainting: https://arxiv.org/abs/2109.07161
+- DeepFill Inpainting: https://arxiv.org/abs/1801.07892
