@@ -242,7 +242,7 @@ Depth Perturbation (Z-axis anonymization)
 |:-:|:-:|
 
 ## Evaluation Results - Speed
-| Num Views / Chunking | Avg Segmentation Time per Frame | Avg Anonymization Time per Frame | FPS   |
+| Num Views / Chunking | Avg Segmentation Time per Frame (s) | Avg Anonymization Time per Frame (s) | FPS   |
 |:--------------------:|:--------------------------------:|:---------------------------------:|:-----:|
 | V=1, C=1             | 0.0225                           | 0.0343                            | 17.60 |
 | V=1, C=2             | 0.0148                           | 0.02155                           | 27.51 |
